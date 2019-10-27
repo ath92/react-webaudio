@@ -17,11 +17,12 @@ const OscillatorComponent : FC<Props> = props => {
 
     useEffect(() => {
         if (makeNoise) {
-            oscillator.type = 'square';
-            oscillator.connect(destination);
-            oscillator.start();
-            setOscillator(oscillator);
-            return () => oscillator.stop();
+            const node = audioCtx.createOscillator();
+            node.type = 'square';
+            node.connect(destination);
+            node.start();
+            setOscillator(node);
+            return () => node.stop();
         }
     }, [makeNoise, audioCtx, destination]);
 
