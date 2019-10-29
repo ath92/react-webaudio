@@ -22,7 +22,7 @@ const GainNode: FC<Props> = props => {
     // handle updates to gain
     useEffect(() => {
         gainNode.gain.value = props.gain;
-    }, [props.gain]);
+    }, [props.gain, gainNode]);
 
     return (
         <DestinationContext.Provider value={gainNode}>

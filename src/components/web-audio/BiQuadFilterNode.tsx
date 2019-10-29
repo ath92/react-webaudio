@@ -29,12 +29,12 @@ const BiQuadFilterNode: FC<Props> = props => {
     // handle updates to frequency
     useEffect(() => {
         filterNode.frequency.setValueAtTime(frequency, audioCtx.currentTime);
-    }, [frequency]);
+    }, [filterNode, frequency, audioCtx]);
 
     // handle updates to type
     useEffect(() => {
         filterNode.type = props.type;
-    }, [props.type])
+    }, [filterNode, props.type]);
 
     return (
         <DestinationContext.Provider value={filterNode}>

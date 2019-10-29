@@ -6,9 +6,10 @@ import BiQuadFilterNode from './components/web-audio/BiQuadFilterNode';
 
 const App: React.FC = () => {
   const [makeNoise, setMakeNoise] = useState(false);
-  const [baseFrequency, setBaseFrequency] = useState(100);
+  const [baseFrequency, setBaseFrequency] = useState(50);
 
   const renderSynth = () => {
+    console.log(baseFrequency);
     if (!makeNoise) return;
     return (
       <AudioContextNode>

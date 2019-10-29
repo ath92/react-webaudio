@@ -12,7 +12,6 @@ const OscillatorComponent : FC<Props> = props => {
     const destination = useContext(DestionationContext);
     const [oscillator, setOscillator] = useState(audioCtx.createOscillator());
 
-
     useEffect(() => {
         const node = audioCtx.createOscillator();
         node.connect(destination);
@@ -26,12 +25,12 @@ const OscillatorComponent : FC<Props> = props => {
 
     useEffect(() => {
         oscillator.type = props.type;
-    }, [props.type]);
+    }, [props.type, oscillator]);
 
     useEffect(() => {
         if (!oscillator) return;
         oscillator.frequency.setValueAtTime(props.frequency, audioCtx.currentTime);
-    }, [props.frequency, oscillator]);
+    }, [props.frequency, oscillator, audioCtx]);
     
     return (
         <React.Fragment>
