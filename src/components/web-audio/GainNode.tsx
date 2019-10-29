@@ -3,7 +3,8 @@ import DestinationContext from '../../context/DestinationContext';
 import AudioContextContext from '../../context/AudioContextContext';
 
 interface Props {
-    gain: number
+    gain: number,
+    gainDestination?: any
 }
 
 const GainNode: FC<Props> = props => {
@@ -25,9 +26,14 @@ const GainNode: FC<Props> = props => {
     }, [props.gain, gainNode]);
 
     return (
-        <DestinationContext.Provider value={gainNode}>
-            { props.children }
-        </DestinationContext.Provider>
+        <React.Fragment>
+            <DestinationContext.Provider value={ gainNode }>
+                { props.children }
+            </DestinationContext.Provider>
+            <DestinationContext.Provider value={ gainNode.gain }>
+                { props.gainDestination }
+            </DestinationContext.Provider>
+        </React.Fragment>
     );
 }
 

@@ -1,6 +1,6 @@
 import React, { FC, useState, useEffect, useContext } from 'react';
-import AudioContextContext from '../context/AudioContextContext';
-import DestionationContext from '../context/DestinationContext';
+import AudioContextContext from '../../context/AudioContextContext';
+import DestionationContext from '../../context/DestinationContext';
 
 interface Props {
     frequency: number,
