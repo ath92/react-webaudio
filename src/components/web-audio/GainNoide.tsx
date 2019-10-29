@@ -9,13 +9,15 @@ interface Props {
 const GainNode: FC<Props> = props => {
     const audioCtx = useContext(AudioContextContext);
     const destination = useContext(DestinationContext);
-    const [gainNode] = useState<GainNode>(audioCtx.createGain());
+    const [gainNode, setGainNode] = useState<GainNode>(audioCtx.createGain());
 
     // connect node
     useEffect(() => {
-        gainNode.connect(destination);
-        return () => gainNode.disconnect(destination);
-    }, []);
+        const node = audioCtx.createGain();
+        node.connect(destination);
+        setGainNode(node);
+        return () => node.disconnect(destination);
+    }, [destination, audioCtx]);
 
     // handle updates to gain
     useEffect(() => {

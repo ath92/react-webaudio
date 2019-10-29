@@ -10,16 +10,19 @@ interface Props {
 const OscillatorComponent : FC<Props> = props => {
     const audioCtx = useContext(AudioContextContext);
     const destination = useContext(DestionationContext);
-    const [oscillator] = useState(audioCtx.createOscillator());
+    const [oscillator, setOscillator] = useState(audioCtx.createOscillator());
+
 
     useEffect(() => {
-        oscillator.connect(destination);
-        oscillator.start();
+        const node = audioCtx.createOscillator();
+        node.connect(destination);
+        node.start();
+        setOscillator(node);
         return () => {
-            oscillator.stop();
-            oscillator.disconnect(destination);
+            node.stop();
+            node.disconnect(destination);
         }
-    }, []);
+    }, [destination, audioCtx]);
 
     useEffect(() => {
         oscillator.type = props.type;

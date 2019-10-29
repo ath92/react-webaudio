@@ -17,7 +17,7 @@ const App: React.FC = () => {
             <OscillatorNode type="square" frequency={baseFrequency} />
           </BiQuadFilterNode>
           <GainNode gain={0.5}>
-            <OscillatorNode type="sawtooth" frequency={baseFrequency * 3} />
+            <OscillatorNode type="square" frequency={baseFrequency * 3} />
             <OscillatorNode type="sine" frequency={baseFrequency * 4} />
           </GainNode>
         </GainNode>

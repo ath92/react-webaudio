@@ -14,15 +14,17 @@ const BiQuadFilterNode: FC<Props> = props => {
     const audioCtx = useContext(AudioContextContext);
     const destination = useContext(DestinationContext);
     const [frequency] = useState(props.frequency || 100);
-    const [filterNode] = useState(audioCtx.createBiquadFilter());
+    const [filterNode, setFilterNode] = useState(audioCtx.createBiquadFilter());
 
     // setup node
     useEffect(() => {
-        filterNode.connect(destination);
+        const node = audioCtx.createBiquadFilter();
+        node.connect(destination);
+        setFilterNode(node);
         return () => {
-            filterNode.disconnect(destination);
+            node.disconnect(destination);
         }
-    }, []);
+    }, [audioCtx, destination]);
 
     // handle updates to frequency
     useEffect(() => {
