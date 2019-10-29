@@ -3,48 +3,36 @@ import AudioContextContext from '../context/AudioContextContext';
 import DestionationContext from '../context/DestinationContext';
 
 interface Props {
-    isOn?: boolean,
-    frequency?: number,
-    // TODO: type of wave as prop
+    frequency: number,
+    type: OscillatorType,
 };
 
 const OscillatorComponent : FC<Props> = props => {
     const audioCtx = useContext(AudioContextContext);
     const destination = useContext(DestionationContext);
-    const [oscillator, setOscillator] = useState(audioCtx.createOscillator());
-    const [makeNoise, setMakeNoise] = useState(props.isOn || false);
-    const [frequency, setFrequency] = useState(props.frequency || 50); // value in hertz
+    const [oscillator] = useState(audioCtx.createOscillator());
 
     useEffect(() => {
-        if (makeNoise) {
-            const node = audioCtx.createOscillator();
-            node.type = 'square';
-            node.connect(destination);
-            node.start();
-            setOscillator(node);
-            return () => node.stop();
+        oscillator.connect(destination);
+        oscillator.start();
+        return () => {
+            oscillator.stop();
+            oscillator.disconnect(destination);
         }
-    }, [makeNoise, audioCtx, destination]);
+    }, []);
+
+    useEffect(() => {
+        oscillator.type = props.type;
+    }, [props.type]);
 
     useEffect(() => {
         if (!oscillator) return;
-        oscillator.frequency.setValueAtTime(frequency, audioCtx.currentTime);
-    }, [frequency, oscillator, audioCtx.currentTime])
-
-    const toggleNoise = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setMakeNoise(e.target.checked);
-    }
-
-    const onRange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const fq = parseInt(e.target.value);
-        if (fq) setFrequency(fq);
-    }
+        oscillator.frequency.setValueAtTime(props.frequency, audioCtx.currentTime);
+    }, [props.frequency, oscillator]);
     
     return (
         <React.Fragment>
-            Make some noise
-            <input type="checkbox" onChange={toggleNoise} checked={makeNoise} />
-            <input onChange={e => onRange(e)} type="range" min="1" max="200 0" />
+            { props.children }
         </React.Fragment>
     );
 }
