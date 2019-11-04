@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import OscillatorNode from "./components/web-audio/OscillatorNode";
 import AudioContextNode from "./components/web-audio/AudioContextNode";
 import GainNode from "./components/web-audio/GainNode";
-import BiQuadFilterNode from "./components/web-audio/BiQuadFilterNode";
 
 import GainOscillator from "./components/ui/GainOscillator";
 
@@ -14,16 +13,13 @@ const App: React.FC = () => {
     if (!makeNoise) return;
     return (
       <AudioContextNode>
-        <GainNode gain={0.1}>
-          <BiQuadFilterNode type="lowpass">
-            <OscillatorNode type="square" frequency={baseFrequency} />
-          </BiQuadFilterNode>
-          <GainNode gain={<GainOscillator />}>
-            <OscillatorNode type="sawtooth" frequency={baseFrequency * 3} />
-            <OscillatorNode type="sine" frequency={baseFrequency * 4} />
+        <OscillatorNode type="sine" frequency={
+          <GainNode gain={200}>
+            <OscillatorNode frequency={baseFrequency} detune={
+              <GainOscillator />
+            } type="square" />
           </GainNode>
-        </GainNode>
-        <GainOscillator />
+        } />
       </AudioContextNode>
     );
   };

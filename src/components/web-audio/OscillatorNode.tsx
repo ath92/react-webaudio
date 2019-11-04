@@ -1,16 +1,20 @@
 import React, { FC, useState, useEffect, useContext } from 'react';
 import AudioContextContext from '../../context/AudioContextContext';
 import DestionationContext from '../../context/DestinationContext';
+import { useAudioParam } from '../../hooks/useAudioParam';
 
 interface Props {
-    frequency: number,
+    frequency?: number | JSX.Element,
     type: OscillatorType,
+    detune?: number | JSX.Element,
 };
 
 const OscillatorComponent : FC<Props> = props => {
     const audioCtx = useContext(AudioContextContext);
     const destination = useContext(DestionationContext);
     const [oscillator, setOscillator] = useState(audioCtx.createOscillator());
+    const frequencyParam = useAudioParam(oscillator, 'frequency', audioCtx, props.frequency);
+    const detuneParam = useAudioParam(oscillator, 'detune', audioCtx, props.detune);
 
     useEffect(() => {
         const node = audioCtx.createOscillator();
@@ -27,14 +31,11 @@ const OscillatorComponent : FC<Props> = props => {
         oscillator.type = props.type;
     }, [props.type, oscillator]);
 
-    useEffect(() => {
-        if (!oscillator) return;
-        oscillator.frequency.setValueAtTime(props.frequency, audioCtx.currentTime);
-    }, [props.frequency, oscillator, audioCtx]);
-    
     return (
         <React.Fragment>
             { props.children }
+            { frequencyParam }
+            { detuneParam }
         </React.Fragment>
     );
 }

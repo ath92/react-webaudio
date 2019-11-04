@@ -4,21 +4,24 @@ import OscillatorNode from '../web-audio/OscillatorNode';
 
 const gainRange = 100;
 
-const GainOscillator: FC = props => {
-    const [frequency, setFrequency] = useState(100);
+interface Props {
+    frequency?: number | JSX.Element
+};
+
+const GainOscillator: FC<Props> = props => {
+    const [frequency, setFrequency] = useState(typeof props.frequency === 'number' ?  props.frequency :440 );
     const [type, setType] = useState<OscillatorType>('sine');
     const [gain, setGain] = useState(1);
 
     return (
         <GainNode gain={gain}>
             <OscillatorNode type={type} frequency={frequency}>
-                {/* UI part */}
                 <div>
                     <label>
                         Gain
                         <input 
                             type="range"
-                            onChange={e => setGain(parseInt(e.target.value) / gainRange)}
+                            onChange={e => setGain(parseInt(e.target.value))}
                             min="1"
                             max={gainRange}
                         />
