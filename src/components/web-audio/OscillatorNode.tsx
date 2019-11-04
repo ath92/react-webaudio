@@ -2,11 +2,12 @@ import React, { FC, useState, useEffect, useContext } from 'react';
 import AudioContextContext from '../../context/AudioContextContext';
 import DestionationContext from '../../context/DestinationContext';
 import { useAudioParam } from '../../hooks/useAudioParam';
+import { AudioParamValue } from '../../types/AudioParamValue';
 
 interface Props {
-    frequency?: number | JSX.Element,
+    frequency?: AudioParamValue,
     type: OscillatorType,
-    detune?: number | JSX.Element,
+    detune?: AudioParamValue,
 };
 
 const OscillatorComponent : FC<Props> = props => {

@@ -1,20 +1,25 @@
 import React, { FC, useContext, useEffect, useState } from 'react';
 import DestinationContext from '../../context/DestinationContext';
 import AudioContextContext from '../../context/AudioContextContext';
+import { useAudioParam } from '../../hooks/useAudioParam';
+import { AudioParamValue } from '../../types/AudioParamValue';
 
 interface Props {
-    frequency?: number,
-    detune?: number,
-    Q?: number,
-    gain?: number,
+    frequency?: AudioParamValue,
+    detune?: AudioParamValue,
+    Q?: AudioParamValue,
+    gain?: AudioParamValue,
     type: BiquadFilterType,
 }
 
 const BiQuadFilterNode: FC<Props> = props => {
     const audioCtx = useContext(AudioContextContext);
     const destination = useContext(DestinationContext);
-    const [frequency] = useState(props.frequency || 100);
     const [filterNode, setFilterNode] = useState(audioCtx.createBiquadFilter());
+    const frequencyParam = useAudioParam(filterNode, 'frequency', audioCtx, props.frequency);
+    const detuneParam = useAudioParam(filterNode, 'detune', audioCtx, props.detune);
+    const QParam = useAudioParam(filterNode, 'Q', audioCtx, props.Q);
+    const gainParam = useAudioParam(filterNode, 'gain', audioCtx, props.gain);
 
     // setup node
     useEffect(() => {
@@ -26,20 +31,21 @@ const BiQuadFilterNode: FC<Props> = props => {
         }
     }, [audioCtx, destination]);
 
-    // handle updates to frequency
-    useEffect(() => {
-        filterNode.frequency.setValueAtTime(frequency, audioCtx.currentTime);
-    }, [filterNode, frequency, audioCtx]);
-
     // handle updates to type
     useEffect(() => {
         filterNode.type = props.type;
     }, [filterNode, props.type]);
 
     return (
-        <DestinationContext.Provider value={filterNode}>
-            { props.children }
-        </DestinationContext.Provider>
+        <React.Fragment>
+            <DestinationContext.Provider value={filterNode}>
+                { props.children }
+            </DestinationContext.Provider>
+            { frequencyParam }
+            { detuneParam }
+            { QParam }
+            { gainParam }
+        </React.Fragment>
     );
 }
 

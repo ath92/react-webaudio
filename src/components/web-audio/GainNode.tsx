@@ -1,15 +1,18 @@
 import React, { FC, useContext, useEffect, useState } from "react";
 import DestinationContext from "../../context/DestinationContext";
 import AudioContextContext from "../../context/AudioContextContext";
+import { useAudioParam } from '../../hooks/useAudioParam';
+import { AudioParamValue } from '../../types/AudioParamValue';
 
 interface Props {
-  gain: number | JSX.Element;
+  gain: AudioParamValue;
 }
 
 const GainNode: FC<Props> = props => {
   const audioCtx = useContext(AudioContextContext);
   const destination = useContext(DestinationContext);
   const [gainNode, setGainNode] = useState<GainNode>(audioCtx.createGain());
+  const gainParam = useAudioParam(gainNode, 'gain', audioCtx, props.gain);
 
   // connect node
   useEffect(() => {
@@ -19,26 +22,12 @@ const GainNode: FC<Props> = props => {
     return () => node.disconnect(destination);
   }, [destination, audioCtx]);
 
-  // handle updates to gain
-  useEffect(() => {
-    if (typeof props.gain === "number") {
-      gainNode.gain.value = props.gain;
-    }
-  }, [props.gain, gainNode]);
-
-  const gainDestinationProvider =
-    typeof props.gain !== "number" ? (
-      <DestinationContext.Provider value={gainNode.gain}>
-        {props.gain}
-      </DestinationContext.Provider>
-    ) : null;
-
   return (
     <React.Fragment>
       <DestinationContext.Provider value={gainNode}>
         {props.children}
       </DestinationContext.Provider>
-      {gainDestinationProvider}
+      { gainParam }
     </React.Fragment>
   );
 };

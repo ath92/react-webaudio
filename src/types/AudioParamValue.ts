@@ -1,0 +1,1 @@
+export type AudioParamValue = JSX.Element | number;
