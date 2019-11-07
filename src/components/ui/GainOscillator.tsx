@@ -23,6 +23,7 @@ const GainOscillator: FC<Props> = props => {
                         <input 
                             type="range"
                             onChange={e => setGain(parseInt(e.target.value))}
+                            value={gain}
                             min="1"
                             max={gainRange}
                         />
@@ -42,7 +43,7 @@ const GainOscillator: FC<Props> = props => {
                             type="range"
                             onChange={e => setFrequency(parseInt(e.target.value))}
                             min="1"
-                            max="20000"
+                            max="200"
                         />
                     </label>
                 </div>
