@@ -14,7 +14,7 @@ const App: React.FC = () => {
 
   const envelope: ADSREnvelope = {
     attack: 0.01,
-    decay: 0.1,
+    decay: 0.01,
     sustain: 0.5,
     release: 0.2
   };

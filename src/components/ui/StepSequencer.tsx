@@ -21,6 +21,7 @@ const OffNote = styled.div`
 
 const OnNote = styled(OffNote)`background-color: green`;
 
+// explicit any because my intellisense is not working for whatever reason and I
 const CurrentNote = (note: any) => styled(note)`border: 4px solid red`;
 
 const emptyTrack = (numNotes: number) => Array(numNotes).fill(false);
@@ -53,10 +54,11 @@ const StepSequencer: FC<Props> = ({ sourceNode, bpm = 100, envelope, beatsPerBar
 
     useInterval(() => {
         const now = audioCtx.currentTime;
-        const note = Math.floor((now % barTime) / timePerNote);
+        const timeInCurrentBar = now % barTime;
+        const note = Math.floor(timeInCurrentBar / timePerNote);
         if (note !== currentNote) {
             setCurrentNote(note);
-            const startOfBar = now - (now % barTime);
+            const startOfBar = now - timeInCurrentBar;
             // schedule next note
             const nextNote = (note + 1) % numNotes;
             if(track[nextNote]) performEnvelope(startOfBar + (note + 1) * timePerNote);
