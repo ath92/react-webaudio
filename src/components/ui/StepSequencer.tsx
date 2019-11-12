@@ -27,14 +27,13 @@ const CurrentNote = (note: any) => styled(note)`border: 4px solid red`;
 const emptyTrack = (numNotes: number) => Array(numNotes).fill(false);
 
 interface Props {
-    sourceNode?: JSX.Element,
     bpm?: number,
     envelope: ADSREnvelope,
     beatsPerBar?: number,
     subdivisions?: number,
 }
 
-const StepSequencer: FC<Props> = ({ sourceNode, bpm = 100, envelope, beatsPerBar = 4, subdivisions = 4 }) => {
+const StepSequencer: FC<Props> = ({ bpm = 100, envelope, beatsPerBar = 4, subdivisions = 4, ...props }) => {
     const numNotes = beatsPerBar * subdivisions;
     const audioCtx = useContext(AudioContextContext);
     const destination = useContext(DestinationContext);
@@ -94,7 +93,7 @@ const StepSequencer: FC<Props> = ({ sourceNode, bpm = 100, envelope, beatsPerBar
                 { trackNotes }
             </Track>
             <DestinationContext.Provider value={gainNode}>
-                { sourceNode }
+                { props.children }
             </DestinationContext.Provider>
         </React.Fragment>
     );

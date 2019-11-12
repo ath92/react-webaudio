@@ -62,15 +62,14 @@ const App: React.FC = () => {
 
         <StepSequencer
           envelope={envelope}
-          sourceNode={
-            <OscillatorNode
-              frequency={<GainOscillator />}
-              detune={<GainOscillator>oscillator frequency</GainOscillator>}
-              type="square"
-              ref={oscRef}
-            />
-          }
-        />
+        >
+          <OscillatorNode
+            frequency={<GainOscillator />}
+            detune={<GainOscillator>oscillator frequency</GainOscillator>}
+            type="square"
+            ref={oscRef}
+          />
+        </StepSequencer>
       </AudioContextNode>
     );
   };
