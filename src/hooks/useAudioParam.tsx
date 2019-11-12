@@ -10,7 +10,7 @@ interface AudioNode {
     [key: string]: any
 }
 
-export const useAudioParam = 
+const useAudioParam = 
 (
     audioNode: AudioNode,
     key: string,
@@ -32,3 +32,5 @@ export const useAudioParam =
         )
     }
 };
+
+export default useAudioParam;
