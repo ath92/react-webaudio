@@ -6,34 +6,34 @@ import useAudioSources from '../../hooks/useAudioSources';
 import AudioParamProp from "../../types/AudioParamProp";
 
 interface Props {
-  gain: AudioParamProp;
+  delayTime: AudioParamProp;
   sources?: (AudioNode | null)[];
 }
 
-const GainNode: FC<Props> = props => {
+const DelayNode: FC<Props> = props => {
   const audioCtx = useContext(AudioContextContext);
   const destination = useContext(DestinationContext);
-  const [gainNode, setGainNode] = useState<GainNode>(audioCtx.createGain());
-  const gainParam = useAudioParam(gainNode, "gain", audioCtx, props.gain);
+  const [delay, setDelay] = useState<DelayNode>(audioCtx.createDelay());
+  const delayTimeParam = useAudioParam(delay, "delayTime", audioCtx, props.delayTime);
 
   // connect node
   useEffect(() => {
-    const node = audioCtx.createGain();
-    node.connect(destination);
-    setGainNode(node);
-    return () => node.disconnect(destination);
+    const node = audioCtx.createDelay();
+    if (destination instanceof AudioNode) node.connect(destination);
+    setDelay(node);
+    if (destination instanceof AudioNode) return () => node.disconnect(destination);
   }, [destination, audioCtx]);
 
-  useAudioSources(gainNode, props.sources);
+  useAudioSources(delay, props.sources);
 
   return (
     <React.Fragment>
-      <DestinationContext.Provider value={gainNode}>
+      <DestinationContext.Provider value={delay}>
         {props.children}
       </DestinationContext.Provider>
-      {gainParam}
+      {delayTimeParam}
     </React.Fragment>
   );
 };
 
-export default GainNode;
+export default DelayNode;

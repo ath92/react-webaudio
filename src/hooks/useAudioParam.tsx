@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import DestinationContext from '../context/DestinationContext';
 import AudioParamProp from '../types/AudioParamProp';
 
+// TODO: types are getting a little weird in here. See if there's a nicer way to do this.
+
 const isAudioParam = (arg: any): arg is AudioParam => {
     return typeof arg.setValueAtTime === 'function';
 }

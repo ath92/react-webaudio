@@ -3,6 +3,7 @@ import OscillatorNode from "./components/web-audio/OscillatorNode";
 import AudioContextNode from "./components/web-audio/AudioContextNode";
 import GainNode from "./components/web-audio/GainNode";
 import BiQuadFilterNode from "./components/web-audio/BiQuadFilterNode";
+import DelayNode from "./components/web-audio/DelayNode";
 import StepSequencer from "./components/ui/StepSequencer";
 import ADSREnvelope from "./types/ADSREnvelope";
 
@@ -53,9 +54,9 @@ const App: React.FC = () => {
           } />
         </BiQuadFilterNode> */}
 
-        <GainNode gain={osc} sources={[osc, osc2]}>
+        <DelayNode delayTime={osc} sources={[osc, osc2]}>
           <OscillatorNode frequency={baseFrequency} type="square" />
-        </GainNode>
+        </DelayNode>
 
         {whatever}
         <button onClick={() => setisOsc2(!isOsc2)}>add osc</button>
@@ -86,3 +87,5 @@ const App: React.FC = () => {
 };
 
 export default App;
+
+// now nodes can easily be patched by storing refs (vertices) and connections (edges)
