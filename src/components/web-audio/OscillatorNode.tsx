@@ -8,7 +8,7 @@ import React, {
 } from "react";
 import AudioContextContext from "../../context/AudioContextContext";
 import DestionationContext from "../../context/DestinationContext";
-import { useAudioParam } from "../../hooks/useAudioParam";
+import useAudioParam from "../../hooks/useAudioParam";
 import { AudioParamValue } from "../../types/AudioParamValue";
 
 interface Props {

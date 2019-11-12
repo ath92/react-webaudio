@@ -53,7 +53,7 @@ const App: React.FC = () => {
           } />
         </BiQuadFilterNode> */}
 
-        <GainNode gain={0.1} sources={[osc, osc2]}>
+        <GainNode gain={osc} sources={[osc, osc2]}>
           <OscillatorNode frequency={baseFrequency} type="square" />
         </GainNode>
 

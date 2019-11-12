@@ -1,30 +1,34 @@
 import React, { useEffect } from 'react';
 import DestinationContext from '../context/DestinationContext';
+import { AudioParamValue } from '../types/AudioParamValue';
 
 const isAudioParam = (arg: any): arg is AudioParam => {
     return typeof arg.setValueAtTime === 'function';
 }
 
-// TODO: figure out if there's a nicer way to do this
-interface AudioNode {
-    [key: string]: any
+const isAudioNode = (arg: any): arg is AudioNode => {
+    if (!arg) return false;
+    return typeof arg.connect === 'function';
 }
 
 const useAudioParam = 
 (
-    audioNode: AudioNode,
+    audioNode: AudioNode & { [key: string]: any },
     key: string,
     audioCtx: AudioContext,
-    prop?: JSX.Element | number, 
+    prop?: AudioParamValue, 
 ): (JSX.Element | void) => {
     const param = audioNode[key];
     useEffect(() => {
-        if (typeof prop === 'number') {
+        if (param === undefined || prop === undefined || prop === null) return;
+        if (isAudioParam(param) && typeof prop === 'number') {
             param.setValueAtTime(prop, audioCtx.currentTime);
+        } else if (isAudioNode(prop)) {
+            prop.connect(audioNode);
         }
     }, [param, prop, audioNode, audioCtx]);
 
-    if (isAudioParam(param) && typeof prop !== 'number'){
+    if (isAudioParam(param) && typeof prop !== 'number' && !isAudioNode(prop)){
         return (
             <DestinationContext.Provider value={param}>
                 { prop }

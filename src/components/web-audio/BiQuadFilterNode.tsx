@@ -1,7 +1,7 @@
 import React, { FC, useContext, useEffect, useState } from 'react';
 import DestinationContext from '../../context/DestinationContext';
 import AudioContextContext from '../../context/AudioContextContext';
-import { useAudioParam } from '../../hooks/useAudioParam';
+import useAudioParam from '../../hooks/useAudioParam';
 import { AudioParamValue } from '../../types/AudioParamValue';
 
 interface Props {
