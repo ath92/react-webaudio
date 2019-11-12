@@ -2,14 +2,16 @@ import React, { FC, useContext, useEffect, useState } from 'react';
 import DestinationContext from '../../context/DestinationContext';
 import AudioContextContext from '../../context/AudioContextContext';
 import useAudioParam from '../../hooks/useAudioParam';
-import { AudioParamValue } from '../../types/AudioParamValue';
+import useAudioSources from '../../hooks/useAudioSources';
+import AudioParamProp from '../../types/AudioParamProp';
 
 interface Props {
-    frequency?: AudioParamValue,
-    detune?: AudioParamValue,
-    Q?: AudioParamValue,
-    gain?: AudioParamValue,
+    frequency?: AudioParamProp,
+    detune?: AudioParamProp,
+    Q?: AudioParamProp,
+    gain?: AudioParamProp,
     type: BiquadFilterType,
+    sources?: (AudioNode | null)[],
 }
 
 const BiQuadFilterNode: FC<Props> = props => {

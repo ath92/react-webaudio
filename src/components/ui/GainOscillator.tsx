@@ -1,12 +1,12 @@
 import React, { FC, useState } from 'react';
 import GainNode from '../web-audio/GainNode';
 import OscillatorNode from '../web-audio/OscillatorNode';
-import { AudioParamValue } from '../../types/AudioParamValue';
+import AudioParamProp from '../../types/AudioParamProp';
 
 const gainRange = 100;
 
 interface Props {
-    frequency?: AudioParamValue
+    frequency?: AudioParamProp
 };
 
 const GainOscillator: FC<Props> = props => {

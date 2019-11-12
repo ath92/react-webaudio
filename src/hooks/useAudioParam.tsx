@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import DestinationContext from '../context/DestinationContext';
-import { AudioParamValue } from '../types/AudioParamValue';
+import AudioParamProp from '../types/AudioParamProp';
 
 const isAudioParam = (arg: any): arg is AudioParam => {
     return typeof arg.setValueAtTime === 'function';
@@ -16,7 +16,7 @@ const useAudioParam =
     audioNode: AudioNode & { [key: string]: any },
     key: string,
     audioCtx: AudioContext,
-    prop?: AudioParamValue, 
+    prop?: AudioParamProp, 
 ): (JSX.Element | void) => {
     const param = audioNode[key];
     useEffect(() => {
