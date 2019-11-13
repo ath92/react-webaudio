@@ -13,6 +13,7 @@ const App: React.FC = () => {
   const [makeNoise, setMakeNoise] = useState(false);
 
   const [sequencerEnvelopeRef, sequencerEnvelope] = useAudioSourceRef();
+  const [fromFilter, toDelay] = useAudioSourceRef();
 
   const envelope: ADSREnvelope = {
     attack: 0.01,
@@ -36,9 +37,9 @@ const App: React.FC = () => {
           } />
         </BiQuadFilterNode> */}
         {/* Add a DelayNode to the current audioContext, with the sequencer as its source */}
-        <GainNode gain={2}>
-          <BiQuadFilterNode type="lowpass">
-            <DelayNode delayTime={0.1} sources={[sequencerEnvelope]} />
+        <GainNode gain={0.1}>
+          <BiQuadFilterNode type="lowpass" ref={fromFilter}>
+            <DelayNode delayTime={0.1} sources={[sequencerEnvelope, toDelay]} />
           </BiQuadFilterNode>
         </GainNode>
 
