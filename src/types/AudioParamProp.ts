@@ -1,3 +1,3 @@
-type AudioParamProp = JSX.Element | AudioNode | number | null;
+type AudioParamProp = JSX.Element | AudioNode | number | undefined;
 
 export default AudioParamProp;

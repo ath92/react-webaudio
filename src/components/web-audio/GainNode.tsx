@@ -14,7 +14,7 @@ import AudioParamProp from "../../types/AudioParamProp";
 
 interface Props {
   gain: AudioParamProp;
-  sources?: (AudioNode | null)[];
+  sources?: (AudioNode | undefined)[];
   ref?: React.Ref<GainNode>;
 }
 

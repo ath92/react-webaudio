@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import OscillatorNode from "./components/web-audio/OscillatorNode";
 import AudioContextNode from "./components/web-audio/AudioContextNode";
 import GainNode from "./components/web-audio/GainNode";
@@ -6,17 +6,13 @@ import BiQuadFilterNode from "./components/web-audio/BiQuadFilterNode";
 import DelayNode from "./components/web-audio/DelayNode";
 import StepSequencer from "./components/ui/StepSequencer";
 import ADSREnvelope from "./types/ADSREnvelope";
-
+import useAudioSourceRef from "./hooks/useAudioSourceRef";
 import GainOscillator from "./components/ui/GainOscillator";
 
 const App: React.FC = () => {
   const [makeNoise, setMakeNoise] = useState(false);
 
-  const [sequencerEnvelope, setSequencerEnvelope] = useState(null);
-  const sequencerEnvelopeRef = useCallback(
-    envelope => setSequencerEnvelope(envelope),
-    []
-  );
+  const [sequencerEnvelopeRef, sequencerEnvelope] = useAudioSourceRef();
 
   const envelope: ADSREnvelope = {
     attack: 0.01,
