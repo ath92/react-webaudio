@@ -13,7 +13,7 @@ import useAudioSources from "../../hooks/useAudioSources";
 import AudioParamProp from "../../types/AudioParamProp";
 
 interface Props {
-  gain: AudioParamProp;
+  gain?: AudioParamProp;
   sources?: (AudioNode | undefined)[];
   ref?: React.Ref<GainNode>;
 }

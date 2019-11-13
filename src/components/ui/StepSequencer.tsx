@@ -9,8 +9,10 @@ import React, {
 import styled from "styled-components";
 import AudioContextContext from "../../context/AudioContextContext";
 import DestinationContext from "../../context/DestinationContext";
+import Gain from "../web-audio/Gain";
 import ADSREnvelope from "../../types/ADSREnvelope";
 import useInterval from "use-interval";
+import useAudioSourceRef from "../../hooks/useAudioSourceRef";
 
 // TODO: this is probably not the correct way to use styled componentns.
 
@@ -55,10 +57,10 @@ const StepSequencer: FC<Props> = forwardRef(
   ) => {
     const numNotes = beatsPerBar * subdivisions;
     const audioCtx = useContext(AudioContextContext);
-    const destination = useContext(DestinationContext);
     const [track, setTrack] = useState(emptyTrack(numNotes));
-    const [gainNode, setGainNode] = useState<GainNode>(audioCtx.createGain());
     const [currentNote, setCurrentNote] = useState(-1);
+
+    const [gainRef, gainNode] = useAudioSourceRef();
 
     const timePerNote = 60 / bpm / subdivisions;
     const barTime = timePerNote * beatsPerBar * subdivisions;
@@ -88,14 +90,6 @@ const StepSequencer: FC<Props> = forwardRef(
       }
     }, 10);
 
-    useEffect(() => {
-      const node = audioCtx.createGain();
-      node.connect(destination);
-      node.gain.setValueAtTime(0, audioCtx.currentTime);
-      setGainNode(node);
-      return () => node.disconnect(destination);
-    }, [destination, audioCtx]);
-
     useImperativeHandle(ref, () => gainNode);
 
     const toggleNote = (index: number) => {
@@ -109,12 +103,10 @@ const StepSequencer: FC<Props> = forwardRef(
     });
 
     return (
-      <React.Fragment>
+      <Gain gain={0} ref={gainRef}>
         <Track>{trackNotes}</Track>
-        <DestinationContext.Provider value={gainNode}>
-          {props.children}
-        </DestinationContext.Provider>
-      </React.Fragment>
+        {props.children}
+      </Gain>
     );
   }
 );

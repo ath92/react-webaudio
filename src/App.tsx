@@ -36,9 +36,9 @@ const App: React.FC = () => {
           } />
         </BiQuadFilterNode> */}
         {/* Add a DelayNode to the current audioContext, with the sequencer as its source */}
-        <Gain gain={0.1}>
+        <Gain gain={2}>
           <BiQuadFilter type="lowpass">
-            <Delay delayTime={0.1} sources={[toDelay]} />
+            <Delay delayTime={0.2} sources={[toDelay]} />
           </BiQuadFilter>
         </Gain>
 
