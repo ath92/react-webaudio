@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import OscillatorNode from "./components/web-audio/OscillatorNode";
-import AudioContextNode from "./components/web-audio/AudioContextNode";
-import GainNode from "./components/web-audio/GainNode";
-import BiQuadFilterNode from "./components/web-audio/BiQuadFilterNode";
-import DelayNode from "./components/web-audio/DelayNode";
+import Oscillator from "./components/web-audio/Oscillator";
+import AudioContextProvider from "./components/web-audio/AudioContextProvider";
+import Gain from "./components/web-audio/Gain";
+import BiQuadFilter from "./components/web-audio/BiquadFilter";
+import Delay from "./components/web-audio/Delay";
 import StepSequencer from "./components/ui/StepSequencer";
 import ADSREnvelope from "./types/ADSREnvelope";
 import useAudioSourceRef from "./hooks/useAudioSourceRef";
@@ -24,7 +24,7 @@ const App: React.FC = () => {
   const renderSynth = () => {
     if (!makeNoise) return;
     return (
-      <AudioContextNode>
+      <AudioContextProvider>
         {/* <BiQuadFilterNode type="lowpass" frequency={
             <GainNode gain={20}>
               <GainOscillator>filter gain</GainOscillator>
@@ -36,20 +36,20 @@ const App: React.FC = () => {
           } />
         </BiQuadFilterNode> */}
         {/* Add a DelayNode to the current audioContext, with the sequencer as its source */}
-        <GainNode gain={0.1}>
-          <BiQuadFilterNode type="lowpass">
-            <DelayNode delayTime={0.1} sources={[toDelay]} />
-          </BiQuadFilterNode>
-        </GainNode>
+        <Gain gain={0.1}>
+          <BiQuadFilter type="lowpass">
+            <Delay delayTime={0.1} sources={[toDelay]} />
+          </BiQuadFilter>
+        </Gain>
 
         <StepSequencer envelope={envelope} ref={fromSequencer}>
-          <OscillatorNode
+          <Oscillator
             frequency={<GainOscillator>oscillator frequency</GainOscillator>}
             detune={<GainOscillator>oscillator detune</GainOscillator>}
             type="square"
           />
         </StepSequencer>
-      </AudioContextNode>
+      </AudioContextProvider>
     );
   };
 

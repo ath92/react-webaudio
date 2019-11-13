@@ -18,7 +18,7 @@ interface Props {
   ref?: React.Ref<OscillatorNode>;
 }
 
-const OscillatorComponent: FC<Props> = forwardRef((props, ref) => {
+const Oscillator: FC<Props> = forwardRef((props, ref) => {
   const audioCtx = useContext(AudioContextContext);
   const destination = useContext(DestionationContext);
   const [oscillator, setOscillator] = useState(audioCtx.createOscillator());
@@ -60,4 +60,4 @@ const OscillatorComponent: FC<Props> = forwardRef((props, ref) => {
   );
 });
 
-export default OscillatorComponent;
+export default Oscillator;

@@ -21,7 +21,7 @@ interface Props {
   ref?: React.Ref<BiquadFilterNode>;
 }
 
-const BiQuadFilterNode: FC<Props> = forwardRef((props, ref) => {
+const BiquadFilter: FC<Props> = forwardRef((props, ref) => {
   const audioCtx = useContext(AudioContextContext);
   const destination = useContext(DestinationContext);
   const [filterNode, setFilterNode] = useState(audioCtx.createBiquadFilter());
@@ -70,4 +70,4 @@ const BiQuadFilterNode: FC<Props> = forwardRef((props, ref) => {
   );
 });
 
-export default BiQuadFilterNode;
+export default BiquadFilter;
