@@ -9,7 +9,6 @@ import React, {
 import DestinationContext from "../../context/DestinationContext";
 import AudioContextContext from "../../context/AudioContextContext";
 import useAudioParam from "../../hooks/useAudioParam";
-import useAudioSources from "../../hooks/useAudioSources";
 import AudioParamProp from "../../types/AudioParamProp";
 
 interface Props {

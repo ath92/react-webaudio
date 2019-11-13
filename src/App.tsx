@@ -12,8 +12,8 @@ import GainOscillator from "./components/ui/GainOscillator";
 const App: React.FC = () => {
   const [makeNoise, setMakeNoise] = useState(false);
 
-  const [sequencerEnvelopeRef, sequencerEnvelope] = useAudioSourceRef();
-  const [fromFilter, toDelay] = useAudioSourceRef();
+  const [fromSequencer, toDelay1] = useAudioSourceRef();
+  const [fromFilter, toDelay2] = useAudioSourceRef();
 
   const envelope: ADSREnvelope = {
     attack: 0.01,
@@ -39,11 +39,11 @@ const App: React.FC = () => {
         {/* Add a DelayNode to the current audioContext, with the sequencer as its source */}
         <GainNode gain={0.1}>
           <BiQuadFilterNode type="lowpass" ref={fromFilter}>
-            <DelayNode delayTime={0.1} sources={[sequencerEnvelope, toDelay]} />
+            <DelayNode delayTime={0.1} sources={[toDelay1, toDelay2]} />
           </BiQuadFilterNode>
         </GainNode>
 
-        <StepSequencer envelope={envelope} ref={sequencerEnvelopeRef}>
+        <StepSequencer envelope={envelope} ref={fromSequencer}>
           <OscillatorNode
             frequency={<GainOscillator>oscillator frequency</GainOscillator>}
             detune={<GainOscillator>oscillator detune</GainOscillator>}
