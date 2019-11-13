@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from "react";
 import OscillatorNode from "./components/web-audio/OscillatorNode";
 import AudioContextNode from "./components/web-audio/AudioContextNode";
-// import GainNode from "./components/web-audio/GainNode";
-// import BiQuadFilterNode from "./components/web-audio/BiQuadFilterNode";
+import GainNode from "./components/web-audio/GainNode";
+import BiQuadFilterNode from "./components/web-audio/BiQuadFilterNode";
 import DelayNode from "./components/web-audio/DelayNode";
 import StepSequencer from "./components/ui/StepSequencer";
 import ADSREnvelope from "./types/ADSREnvelope";
@@ -40,7 +40,11 @@ const App: React.FC = () => {
           } />
         </BiQuadFilterNode> */}
         {/* Add a DelayNode to the current audioContext, with the sequencer as its source */}
-        <DelayNode delayTime={0.1} sources={[sequencerEnvelope]} />
+        <GainNode gain={2}>
+          <BiQuadFilterNode type="lowpass">
+            <DelayNode delayTime={0.1} sources={[sequencerEnvelope]} />
+          </BiQuadFilterNode>
+        </GainNode>
 
         <StepSequencer envelope={envelope} ref={sequencerEnvelopeRef}>
           <OscillatorNode
