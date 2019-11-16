@@ -10,7 +10,7 @@ import GainOscillator from "./components/ui/GainOscillator";
 
 const App: React.FC = () => {
   const [makeNoise, setMakeNoise] = useState(false);
-  const [sequencerGain, setSequencerGain] = useState();
+  const [sequencerGain, setSequencerGain] = useState<GainNode>();
 
   const envelope: ADSREnvelope = {
     attack: 0.01,

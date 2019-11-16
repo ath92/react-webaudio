@@ -3,16 +3,12 @@ import React, {
   useState,
   useContext,
   useEffect,
-  forwardRef,
-  useImperativeHandle
 } from "react";
 import styled from "styled-components";
 import AudioContextContext from "../../context/AudioContextContext";
-import DestinationContext from "../../context/DestinationContext";
 import Gain from "../web-audio/Gain";
 import ADSREnvelope from "../../types/ADSREnvelope";
 import useInterval from "use-interval";
-import useAudioSourceRef from "../../hooks/useAudioSourceRef";
 
 // TODO: this is probably not the correct way to use styled componentns.
 

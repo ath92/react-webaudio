@@ -3,8 +3,6 @@ import React, {
   useContext,
   useEffect,
   useState,
-  forwardRef,
-  useImperativeHandle
 } from "react";
 import DestinationContext from "../../context/DestinationContext";
 import AudioContextContext from "../../context/AudioContextContext";
