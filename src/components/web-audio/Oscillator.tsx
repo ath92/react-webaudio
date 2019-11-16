@@ -15,26 +15,32 @@ interface Props {
   frequency?: AudioParamProp;
   type: OscillatorType;
   detune?: AudioParamProp;
-  ref?: React.Ref<OscillatorNode>;
+  withNode?: (node: OscillatorNode) => void
 }
 
-const Oscillator: FC<Props> = forwardRef((props, ref) => {
+const Oscillator: FC<Props> = (props) => {
   const audioCtx = useContext(AudioContextContext);
   const destination = useContext(DestionationContext);
   const [oscillator, setOscillator] = useState(audioCtx.createOscillator());
+
   const frequencyParam = useAudioParam(
     oscillator,
     "frequency",
     audioCtx,
     props.frequency
   );
+
   const detuneParam = useAudioParam(
     oscillator,
     "detune",
     audioCtx,
     props.detune
   );
-  useImperativeHandle(ref, () => oscillator);
+
+  useEffect(() => {
+    if (props.withNode === undefined) return;
+    props.withNode(oscillator);
+  }, [props.withNode, oscillator]);
 
   useEffect(() => {
     const node = audioCtx.createOscillator();
@@ -58,6 +64,6 @@ const Oscillator: FC<Props> = forwardRef((props, ref) => {
       {detuneParam}
     </React.Fragment>
   );
-});
+};
 
 export default Oscillator;

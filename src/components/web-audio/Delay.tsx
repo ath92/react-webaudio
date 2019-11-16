@@ -15,10 +15,10 @@ import AudioParamProp from "../../types/AudioParamProp";
 interface Props {
   delayTime: AudioParamProp;
   sources?: (AudioNode | undefined)[];
-  ref?: React.Ref<DelayNode>;
+  withNode?: (node: DelayNode) => void;
 }
 
-const Delay: FC<Props> = forwardRef((props, ref) => {
+const Delay: FC<Props> = (props) => {
   const audioCtx = useContext(AudioContextContext);
   const destination = useContext(DestinationContext);
   const [delay, setDelay] = useState<DelayNode>(audioCtx.createDelay());
@@ -38,9 +38,12 @@ const Delay: FC<Props> = forwardRef((props, ref) => {
       return () => node.disconnect(destination);
   }, [destination, audioCtx]);
 
-  useAudioSources(delay, props.sources);
+  useEffect(() => {
+    if (props.withNode === undefined) return;
+    props.withNode(delay);
+  }, [props.withNode, delay]);
 
-  useImperativeHandle(ref, () => delay);
+  useAudioSources(delay, props.sources);
 
   return (
     <React.Fragment>
@@ -50,6 +53,6 @@ const Delay: FC<Props> = forwardRef((props, ref) => {
       {delayTimeParam}
     </React.Fragment>
   );
-});
+};
 
 export default Delay;

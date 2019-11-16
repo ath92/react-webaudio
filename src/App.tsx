@@ -6,13 +6,11 @@ import BiQuadFilter from "./components/web-audio/BiquadFilter";
 import Delay from "./components/web-audio/Delay";
 import StepSequencer from "./components/ui/StepSequencer";
 import ADSREnvelope from "./types/ADSREnvelope";
-import useAudioSourceRef from "./hooks/useAudioSourceRef";
 import GainOscillator from "./components/ui/GainOscillator";
 
 const App: React.FC = () => {
   const [makeNoise, setMakeNoise] = useState(false);
-
-  const [fromSequencer, toDelay] = useAudioSourceRef();
+  const [sequencerGain, setSequencerGain] = useState();
 
   const envelope: ADSREnvelope = {
     attack: 0.01,
@@ -38,11 +36,11 @@ const App: React.FC = () => {
         {/* Add a DelayNode to the current audioContext, with the sequencer as its source */}
         <Gain gain={2}>
           <BiQuadFilter type="lowpass">
-            <Delay delayTime={0.2} sources={[toDelay]} />
+            <Delay delayTime={0.2} sources={[sequencerGain]} />
           </BiQuadFilter>
         </Gain>
 
-        <StepSequencer envelope={envelope} ref={fromSequencer}>
+        <StepSequencer envelope={envelope} withNode={setSequencerGain}>
           <Oscillator
             frequency={<GainOscillator>oscillator frequency</GainOscillator>}
             detune={<GainOscillator>oscillator detune</GainOscillator>}

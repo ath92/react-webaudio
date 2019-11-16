@@ -15,10 +15,10 @@ import AudioParamProp from "../../types/AudioParamProp";
 interface Props {
   gain?: AudioParamProp;
   sources?: (AudioNode | undefined)[];
-  ref?: React.Ref<GainNode>;
+  withNode?: (node: GainNode) => void;
 }
 
-const Gain: FC<Props> = forwardRef((props, ref) => {
+const Gain: FC<Props> = (props) => {
   const audioCtx = useContext(AudioContextContext);
   const destination = useContext(DestinationContext);
   const [gainNode, setGainNode] = useState<GainNode>(audioCtx.createGain());
@@ -32,9 +32,12 @@ const Gain: FC<Props> = forwardRef((props, ref) => {
     return () => node.disconnect(destination);
   }, [destination, audioCtx]);
 
-  useAudioSources(gainNode, props.sources);
+  useEffect(() => {
+    if (props.withNode === undefined) return;
+    props.withNode(gainNode);
+  }, [props.withNode, gainNode]);
 
-  useImperativeHandle(ref, () => gainNode);
+  useAudioSources(gainNode, props.sources);
 
   return (
     <React.Fragment>
@@ -44,6 +47,6 @@ const Gain: FC<Props> = forwardRef((props, ref) => {
       {gainParam}
     </React.Fragment>
   );
-});
+};
 
 export default Gain;

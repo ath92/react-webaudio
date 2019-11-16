@@ -18,10 +18,10 @@ interface Props {
   gain?: AudioParamProp;
   type: BiquadFilterType;
   sources?: (AudioNode | null)[];
-  ref?: React.Ref<BiquadFilterNode>;
+  withNode?: (node: GainNode) => void;
 }
 
-const BiquadFilter: FC<Props> = forwardRef((props, ref) => {
+const BiquadFilter: FC<Props> = (props) => {
   const audioCtx = useContext(AudioContextContext);
   const destination = useContext(DestinationContext);
   const [filterNode, setFilterNode] = useState(audioCtx.createBiquadFilter());
@@ -55,8 +55,6 @@ const BiquadFilter: FC<Props> = forwardRef((props, ref) => {
     filterNode.type = props.type;
   }, [filterNode, props.type]);
 
-  useImperativeHandle(ref, () => filterNode);
-
   return (
     <React.Fragment>
       <DestinationContext.Provider value={filterNode}>
@@ -68,6 +66,6 @@ const BiquadFilter: FC<Props> = forwardRef((props, ref) => {
       {gainParam}
     </React.Fragment>
   );
-});
+};
 
 export default BiquadFilter;
